@@ -517,8 +517,7 @@ void items() {
     if (in.eof()) {
         out << "0\n";
         itemnumbers = 0;
-    }
-    else
+    } else
         itemnumbers = cl;
     in.close();
     out.close();
@@ -526,60 +525,50 @@ void items() {
     cout << "(1) Gain Items\n(2) Use Items\n(3) Key Items\n(4) Use Key Items\n";
     cout << "(5) Check inventory\n(6)Exit this submenu";
     cin >> choice;
-    if (choice == '1')
-    {
+    if (choice == '1') {
         reset:
-            cout << "Type the item name (25 chars. max)\n";
-    cin.get(item, 25);
-    cin.ignore(1, '\n');
-    cin.get(item, 25);
-    cin.ignore(1, '\n');
-    out.open("items.txt", ios::app);
-    out << item << endl;
-    out.close();
-    itemnumbers = itemnumbers + 1;
-    cout << "Got " << item << "!\n";
-    cout << "Gain more items?\n(1) Yes\n(2) No\n";
-    cin >> choice2;
-    if (choice2 == '1')
-    {
-        goto reset;
-    }
-    system("copy items.txt temp.txt");
-    system("del items.txt");
-    out.open("items.txt", ios::app);
-    out << itemnumbers << endl;
-    in.open("temp.txt", ios::in);
-    in.ignore(1, '\n');
-    in.get(item, 25);
-    in.ignore(1, '\n');
-    in.get(item, 25);
-    in.ignore(1, '\n');
-    out << item << endl;
-    for (int j = 1; j <= itemnumbers; j++)
-    {
-        in.get(item, 25);
-        if (in.eof())
-        {
-            break;
+        cout << "Type the item name (25 chars. max)\n";
+        cin.get(item, 25);
+        cin.ignore(1, '\n');
+        cin.get(item, 25);
+        cin.ignore(1, '\n');
+        out.open("items.txt", ios::app);
+        out << item << endl;
+        out.close();
+        itemnumbers = itemnumbers + 1;
+        cout << "Got " << item << "!\n";
+        cout << "Gain more items?\n(1) Yes\n(2) No\n";
+        cin >> choice2;
+        if (choice2 == '1') {
+            goto reset;
         }
+        system("copy items.txt temp.txt");
+        system("del items.txt");
+        out.open("items.txt", ios::app);
+        out << itemnumbers << endl;
+        in.open("temp.txt", ios::in);
+        in.ignore(1, '\n');
+        in.get(item, 25);
+        in.ignore(1, '\n');
+        in.get(item, 25);
         in.ignore(1, '\n');
         out << item << endl;
-    }
-    in.close();
-    out.close();
-    system("del temp.txt");
-    }
-    if (choice == '2')
-    {
+        for (int j = 1; j <= itemnumbers; j++) {
+            in.get(item, 25);
+            if (in.eof())
+                break;
+            in.ignore(1, '\n');
+            out << item << endl;
+        }
+        in.close();
+        out.close();
+        system("del temp.txt");
+    } else if (choice == '2') {
         in.open("items.txt", ios::in);
         in >> itemnumbers;
         if (itemnumbers == 0)
-        {
             cout << "You have no items.\n";
-        }
-        else
-        {
+        else {
             int j;
             cout << "Use which iten?\n";
             cout << "(0) Don't use items\n";
@@ -588,81 +577,66 @@ void items() {
             in.get(item, 25);
             in.ignore(1, '\n');
             cout << "(1) " << item << endl;
-            for (j = 1; j < itemnumbers; j++)
-            {
+            for (j = 1; j < itemnumbers; j++) {
                 in.get(item, 25);
                 in.ignore(1, '\n');
                 cout << "(" << j + 1 << ") " << item << endl;
             }
             in.close();
             cin >> choice2;
-                int n = choice2 - '0';
-                if (n != 0)
-                {
-                    in.open("items.txt", ios::in);
-                    in.ignore(2, '\n');
-                    for (j = 1; j < n; j++)
-                    {
-                        in.ignore(26, '\n');
-                    }
+            int n = choice2 - '0';
+            if (n != 0) {
+                in.open("items.txt", ios::in);
+                in.ignore(2, '\n');
+                for (j = 1; j < n; j++)
+                    in.ignore(26, '\n');
+                in.get(item, 25);
+                in.ignore(1, '\n');
+                in.close();
+                cout << "/me used " << item << endl;
+                system("copy items.txt temp.txt");
+                in.open("temp.txt", ios::in);
+                in >> itemnumbers;
+                itemnumbers = itemnumbers - 1;
+                in.ignore(1, '\n');
+                out.open("items.txt", ios::out);
+                out << itemnumbers << endl;
+                for (j = 1; j < n; j++) {
                     in.get(item, 25);
                     in.ignore(1, '\n');
-                    in.close();
-                    cout << "/me used " << item << endl;
-                    system("copy items.txt temp.txt");
-                    in.open("temp.txt", ios::in);
-                    in >> itemnumbers;
-                    itemnumbers = itemnumbers - 1;
-                    in.ignore(1, '\n');
-                    out.open("items.txt", ios::out);
-                    out << itemnumbers << endl;
-                    for (j = 1; j < n; j++)
-                    {
-                        in.get(item, 25);
-                        in.ignore(1, '\n');
-                        out << item << endl;
-                    }
-                    in.get(item, 25);
-                    in.ignore(1, '\n');
-                    for (int k = n; k <= itemnumbers; k++)
-                    {
-                        in.get(item, 25);
-                        in.ignore(1, '\n');
-                        out << item << endl;
-                    }
-                    in.close();
-                    out.close();
-                    system("del temp.txt");
+                    out << item << endl;
                 }
+                in.get(item, 25);
+                in.ignore(1, '\n');
+                for (int k = n; k <= itemnumbers; k++) {
+                    in.get(item, 25);
+                    in.ignore(1, '\n');
+                    out << item << endl;
+                }
+                in.close();
+                out.close();
+                system("del temp.txt");
+            }
         }
-    }
-    if (choice == '3')
-    {
+    } else if (choice == '3') {
         in.open("items.txt", ios::in);
         in >> itemnumbers;
-                        if (itemnumbers == 0)
-                        {
-                            cout << "You have no items\n";
-                        }
-                        else
-                        {
-                            cout << "Items:\n";
-                            in.get(item, 25);
-                            in.ignore(1, '\n');
-                            in.get(item, 25);
-                            in.ignore(1, '\n');
-                            cout << "(1) " << item << endl;
-                            for (int j = 1; j < itemnumbers; j++)
-                            {
-                                in.get(item, 25);
-                                in.ignore(1, '\n');
-                                cout << "(" << j + 1 << ") " << item << endl;
-                            }
-                            in.close();
-                        }
+        if (itemnumbers == 0)
+            cout << "You have no items\n";
+        else {
+            cout << "Items:\n";
+            in.get(item, 25);
+            in.ignore(1, '\n');
+            in.get(item, 25);
+            in.ignore(1, '\n');
+            cout << "(1) " << item << endl;
+            for (int j = 1; j < itemnumbers; j++) {
+                in.get(item, 25);
+                in.ignore(1, '\n');
+                cout << "(" << j + 1 << ") " << item << endl;
+            }
+            in.close();
+        }
     }
     system("PAUSE");
 }
-
-
-
