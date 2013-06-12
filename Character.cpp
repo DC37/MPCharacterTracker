@@ -256,33 +256,34 @@ void stats() {
     default:
         break;
     }
-    if (spdef == 1)
-    {
+    switch (spdef) {
+    case 1:
         cout << "\nSp Defense: High";
-    }
-    if (spdef == 2)
-    {
+        break;
+    case 2:
         cout << "\nSp Defense: Medium";
-    }
-    if (spdef == 3)
-    {
+        break;
+    case 3:
         cout << "\nSp Defense: Low";
-    }
-    if (spdef == 4)
-    {
+        break;
+    case 4:
         cout << "\nSp Defense: Zero";
+        break;
+    default:
+        break;
     }
-    if (spd == 1)
-    {
+    switch (spd) {
+    case 1:
         cout << "\nSpeed: High";
-    }
-    if (spd == 2)
-    {
+        break;
+    case 2:
         cout << "\nSpeed: Medium";
-    }
-    if (spd == 3)
-    {
+        break;
+    case 3:
         cout << "\nSpeed: Low";
+        break;
+    default:
+        break;
     }
     cout << endl;
     system("PAUSE");
@@ -311,36 +312,23 @@ void damage() {
         switch (attack)
     case 1:
         if (attack == 1)
-        {
             damage = 1.5 * coredamage;
-        }
         if (attack == 2)
-        {
             damage = coredamage;
-        }
         if (attack == 3)
-        {
             damage = 0.5 * coredamage;
-        }
         cout <<"What is the enemy's defense?\n(1) High\n(2) Medium\n(3) Low\n";
         cin >> defense;
         if (defense == '1')
-        {
             netdamage = 0.5 * damage;
-        }
         if (defense == '2')
-        {
             netdamage = damage;
-        }
         if (defense == '3')
-        {
             netdamage = 1.5 * damage;
-        }
         totnetdamage = netdamage + 0.75;
         cout << "The damage dealt is " << totnetdamage << " .\n";
     }
-    else if (atk == '2')
-    {
+    else if (atk == '2') {
         cout << "Level Skill was learned at: ";
         cin >> spatklvl;
         in.ignore(2, '\n');
@@ -379,23 +367,16 @@ void damage() {
         while (totnetdamage == 0) {
             cout <<"What is the enemy's defense?\n(1) High\n(2) Medium\n(3) Low\n";
             cin >> defense;
-            if (defense == '1')
-            {
+            if (defense == '1') {
                 netdamage = 0.5 * damage;
                 totnetdamage = netdamage + 0.75;
-            }
-            if (defense == '2')
-            {
+            } else if (defense == '2') {
                 netdamage = damage;
                 totnetdamage = netdamage + 0.75;
-            }
-            if (defense == '3')
-            {
+            } else if (defense == '3') {
                 netdamage = 1.5 * damage;
                 totnetdamage = netdamage + 0.75;
-            }
-            else
-            {
+            } else {
                 cout << "Please input a choice\n";
                 continue;
             }
@@ -411,22 +392,17 @@ void tothealth() {
     cout << "--HP CALCULATION--\n";
     cout << "(1) Take Damage\n(2) Heal Damage\n(3) Check current HP\n(4) Exit this submenu\n";
     cin >> dmg;
-    if (dmg == '1')
-    {
+    if (dmg == '1') {
         cout << "Damage Taken: ";
         cin >> damage;
         totalhealth -= damage;
         cout << "/me takes " << damage << " damage." << endl;
-    }
-    if (dmg == '2')
-    {
+    } else if (dmg == '2') {
         cout << "HP Healed: ";
         cin >> damage;
         totalhealth += damage;
         cout << "/me healed " << damage << " HP.\n";
-    }
-    if (dmg == '3')
-    {
+    } else if (dmg == '3') {
         cout << "Current HP: ";
         cout << totalhealth << "/" << fullhealth << endl;
     }
@@ -441,8 +417,7 @@ void help() {
     cout << "--HELP MENU--\n";
     cout << "(1) Character\n(2) EXP\n(3) Exit\n";
     cin >> choice;
-    if (choice == '1')
-    {
+    if (choice == '1') {
         cout << "The text file containing your character information, character.txt,\n";
         cout << "can be deleted at any time should you accidentally have entered the\n";
         cout << "wrong info for the setup.\n";
@@ -450,9 +425,7 @@ void help() {
         cout << "[character name]\nAttack Stat\nDefense Stat\nSpecial Stat\n";
         cout << "Special Defense Stat\nSpeed Stat\nLevel\nHP\nEXP Remaining\n";
         cout << "Items, etc.";
-    }
-    if (choice == '2')
-    {
+    } else if (choice == '2') {
         cout << "EXP Table: Amount of EXP Required to level up.\n";
         for (int k = 1; k <= 15; k++)
         {
@@ -486,22 +459,24 @@ void SP() {
         in.ignore(2, '\n');
     in >> level;
     in.close();
-    if (fSP == 1)
-    {
-        totalSP = 3 * level;
+    int mul;
+    switch (fSP) {
+    case 1:
+        mul = 3;
+        break;
+    case 2:
+        mul = 2;
+        break;
+    case 3:
+        mul = 1;
+        break;
+    case 4:
+        mul = 0;
+        break;
+    default:
+        break;
     }
-    if (fSP == 2)
-    {
-        totalSP = 2 * level;
-    }
-    if (fSP == 3)
-    {
-        totalSP = 1 * level;
-    }
-    if (fSP == 4)
-    {
-        totalSP = 0;
-    }
+    totalSP = mul * level;
     fullSP = totalSP;
 }
 
@@ -511,22 +486,17 @@ void totSP() {
     cout << "--SP CALCULATION--\n";
     cout << "(1) Use SP\n(2) Regain SP\n(3) Check current SP\n(4) Exit this submenu\n";
     cin >> choice;
-    if (choice == '1')
-    {
+    if (choice == '1') {
         cout << "SP Used: ";
         cin >> amt;
         totalSP -= amt;
         cout << "/me used " << amt << " SP." << endl;
-    }
-    if (choice == '2')
-    {
+    } else if (choice == '2') {
         cout << "SP Regained: ";
         cin >> amt;
         totalSP += amt;
         cout << "/me regained " << amt << " SP.\n";
-    }
-    if (choice == '3')
-    {
+    } else if (choice == '3') {
         cout << "Current SP: ";
         cout << totalSP << "/" << fullSP << endl;
     }
@@ -543,155 +513,155 @@ void items() {
     out.open("items.txt", ios::app);
     in.open("items.txt", ios::in);
     in >> cl;
+    in.ignore(1, '\n');
+    if (in.eof()) {
+        out << "0\n";
+        itemnumbers = 0;
+    }
+    else
+        itemnumbers = cl;
+    in.close();
+    out.close();
+    cout << "--ITEMS--\n";
+    cout << "(1) Gain Items\n(2) Use Items\n(3) Key Items\n(4) Use Key Items\n";
+    cout << "(5) Check inventory\n(6)Exit this submenu";
+    cin >> choice;
+    if (choice == '1')
+    {
+        reset:
+            cout << "Type the item name (25 chars. max)\n";
+    cin.get(item, 25);
+    cin.ignore(1, '\n');
+    cin.get(item, 25);
+    cin.ignore(1, '\n');
+    out.open("items.txt", ios::app);
+    out << item << endl;
+    out.close();
+    itemnumbers = itemnumbers + 1;
+    cout << "Got " << item << "!\n";
+    cout << "Gain more items?\n(1) Yes\n(2) No\n";
+    cin >> choice2;
+    if (choice2 == '1')
+    {
+        goto reset;
+    }
+    system("copy items.txt temp.txt");
+    system("del items.txt");
+    out.open("items.txt", ios::app);
+    out << itemnumbers << endl;
+    in.open("temp.txt", ios::in);
+    in.ignore(1, '\n');
+    in.get(item, 25);
+    in.ignore(1, '\n');
+    in.get(item, 25);
+    in.ignore(1, '\n');
+    out << item << endl;
+    for (int j = 1; j <= itemnumbers; j++)
+    {
+        in.get(item, 25);
+        if (in.eof())
+        {
+            break;
+        }
         in.ignore(1, '\n');
-        if (in.eof()) {
-            out << "0\n";
-            itemnumbers = 0;
+        out << item << endl;
+    }
+    in.close();
+    out.close();
+    system("del temp.txt");
+    }
+    if (choice == '2')
+    {
+        in.open("items.txt", ios::in);
+        in >> itemnumbers;
+        if (itemnumbers == 0)
+        {
+            cout << "You have no items.\n";
         }
         else
-            itemnumbers = cl;
-        in.close();
-        out.close();
-        cout << "--ITEMS--\n";
-        cout << "(1) Gain Items\n(2) Use Items\n(3) Key Items\n(4) Use Key Items\n";
-        cout << "(5) Check inventory\n(6)Exit this submenu";
-        cin >> choice;
-        if (choice == '1')
         {
-            reset:
-                cout << "Type the item name (25 chars. max)\n";
-        cin.get(item, 25);
-        cin.ignore(1, '\n');
-        cin.get(item, 25);
-        cin.ignore(1, '\n');
-        out.open("items.txt", ios::app);
-        out << item << endl;
-        out.close();
-        itemnumbers = itemnumbers + 1;
-        cout << "Got " << item << "!\n";
-        cout << "Gain more items?\n(1) Yes\n(2) No\n";
-        cin >> choice2;
-        if (choice2 == '1')
-        {
-            goto reset;
-        }
-        system("copy items.txt temp.txt");
-        system("del items.txt");
-        out.open("items.txt", ios::app);
-        out << itemnumbers << endl;
-        in.open("temp.txt", ios::in);
-        in.ignore(1, '\n');
-        in.get(item, 25);
-        in.ignore(1, '\n');
-        in.get(item, 25);
-        in.ignore(1, '\n');
-        out << item << endl;
-        for (int j = 1; j <= itemnumbers; j++)
-        {
+            int j;
+            cout << "Use which iten?\n";
+            cout << "(0) Don't use items\n";
             in.get(item, 25);
-            if (in.eof())
-            {
-                break;
-            }
             in.ignore(1, '\n');
-            out << item << endl;
-        }
-        in.close();
-        out.close();
-        system("del temp.txt");
-        }
-        if (choice == '2')
-        {
-            in.open("items.txt", ios::in);
-            in >> itemnumbers;
-            if (itemnumbers == 0)
+            in.get(item, 25);
+            in.ignore(1, '\n');
+            cout << "(1) " << item << endl;
+            for (j = 1; j < itemnumbers; j++)
             {
-                cout << "You have no items.\n";
+                in.get(item, 25);
+                in.ignore(1, '\n');
+                cout << "(" << j + 1 << ") " << item << endl;
             }
-            else
-            {
-                int j;
-                cout << "Use which iten?\n";
-                cout << "(0) Don't use items\n";
-                in.get(item, 25);
-                in.ignore(1, '\n');
-                in.get(item, 25);
-                in.ignore(1, '\n');
-                cout << "(1) " << item << endl;
-                for (j = 1; j < itemnumbers; j++)
+            in.close();
+            cin >> choice2;
+                int n = choice2 - '0';
+                if (n != 0)
                 {
+                    in.open("items.txt", ios::in);
+                    in.ignore(2, '\n');
+                    for (j = 1; j < n; j++)
+                    {
+                        in.ignore(26, '\n');
+                    }
                     in.get(item, 25);
                     in.ignore(1, '\n');
-                    cout << "(" << j + 1 << ") " << item << endl;
-                }
-                in.close();
-                cin >> choice2;
-                    int n = choice2 - '0';
-                    if (n != 0)
+                    in.close();
+                    cout << "/me used " << item << endl;
+                    system("copy items.txt temp.txt");
+                    in.open("temp.txt", ios::in);
+                    in >> itemnumbers;
+                    itemnumbers = itemnumbers - 1;
+                    in.ignore(1, '\n');
+                    out.open("items.txt", ios::out);
+                    out << itemnumbers << endl;
+                    for (j = 1; j < n; j++)
                     {
-                        in.open("items.txt", ios::in);
-                        in.ignore(2, '\n');
-                        for (j = 1; j < n; j++)
-                        {
-                            in.ignore(26, '\n');
-                        }
                         in.get(item, 25);
                         in.ignore(1, '\n');
-                        in.close();
-                        cout << "/me used " << item << endl;
-                        system("copy items.txt temp.txt");
-                        in.open("temp.txt", ios::in);
-                        in >> itemnumbers;
-                        itemnumbers = itemnumbers - 1;
-                        in.ignore(1, '\n');
-                        out.open("items.txt", ios::out);
-                        out << itemnumbers << endl;
-                        for (j = 1; j < n; j++)
-                        {
-                            in.get(item, 25);
-                            in.ignore(1, '\n');
-                            out << item << endl;
-                        }
-                        in.get(item, 25);
-                        in.ignore(1, '\n');
-                        for (int k = n; k <= itemnumbers; k++)
-                        {
-                            in.get(item, 25);
-                            in.ignore(1, '\n');
-                            out << item << endl;
-                        }
-                        in.close();
-                        out.close();
-                        system("del temp.txt");
+                        out << item << endl;
                     }
-            }
+                    in.get(item, 25);
+                    in.ignore(1, '\n');
+                    for (int k = n; k <= itemnumbers; k++)
+                    {
+                        in.get(item, 25);
+                        in.ignore(1, '\n');
+                        out << item << endl;
+                    }
+                    in.close();
+                    out.close();
+                    system("del temp.txt");
+                }
         }
-        if (choice == '3')
-        {
-            in.open("items.txt", ios::in);
-            in >> itemnumbers;
-                            if (itemnumbers == 0)
+    }
+    if (choice == '3')
+    {
+        in.open("items.txt", ios::in);
+        in >> itemnumbers;
+                        if (itemnumbers == 0)
+                        {
+                            cout << "You have no items\n";
+                        }
+                        else
+                        {
+                            cout << "Items:\n";
+                            in.get(item, 25);
+                            in.ignore(1, '\n');
+                            in.get(item, 25);
+                            in.ignore(1, '\n');
+                            cout << "(1) " << item << endl;
+                            for (int j = 1; j < itemnumbers; j++)
                             {
-                                cout << "You have no items\n";
-                            }
-                            else
-                            {
-                                cout << "Items:\n";
                                 in.get(item, 25);
                                 in.ignore(1, '\n');
-                                in.get(item, 25);
-                                in.ignore(1, '\n');
-                                cout << "(1) " << item << endl;
-                                for (int j = 1; j < itemnumbers; j++)
-                                {
-                                    in.get(item, 25);
-                                    in.ignore(1, '\n');
-                                    cout << "(" << j + 1 << ") " << item << endl;
-                                }
-                                in.close();
+                                cout << "(" << j + 1 << ") " << item << endl;
                             }
-        }
-        system("PAUSE");
+                            in.close();
+                        }
+    }
+    system("PAUSE");
 }
 
 
