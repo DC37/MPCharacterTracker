@@ -1,5 +1,5 @@
 /****************************************************************************\
-                     Character Tracking Program v1.9
+                     Character Tracking Program v1.91
                      (c) 2009 By: RehdBlob
 \****************************************************************************/
 #include <fstream.h>
@@ -206,6 +206,7 @@ if (choice == '1')
          SP();
          }
       }
+   else
    remain = lvl;
    cout << "Level " << lvl << endl << lvl - exp << " / " << remain << " exp"<< endl;
    out.open ("character.txt", ios::out);
