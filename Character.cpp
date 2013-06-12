@@ -1,12 +1,12 @@
 /****************************************************************************\
-                     Character Tracking Program v1.5
+                     Character Tracking Program v1.9
                      (c) 2009 By: RehdBlob
 \****************************************************************************/
 #include <fstream.h>
 #include <stdlib.h>
 #include <time.h>
 
-int totalhealth, fullhealth;
+int totalhealth, fullhealth, totalSP, fullSP;
 void health();
 void damage();
 void setup();
@@ -16,6 +16,7 @@ void mainmenu();
 void tothealth();
 void help();
 void SP();
+void totSP();
 
 int main()
 {
@@ -30,6 +31,7 @@ if (!in.eof())
    out.close();
    in.close();
    health();
+   SP();
    mainmenu();
    }
 else if (in.eof())
@@ -43,13 +45,13 @@ else if (in.eof())
      cout << "Choose high, medium, or low for the following. The stats must balance.\n";
      cout << "HP:\n(1) High\n(2) Medium\n(3) Low\n";
      cin >> HP;
-     cout << "Attack:\n(1) High\n(2) Medium\n(3) Low\n";
+     cout << "Attack:\n(1) High\n(2) Medium\n(3) Low\n(4) Zero\n";
      cin >> atk;
-     cout << "Defense:\n(1) High\n(2) Medium\n(3) Low\n";
+     cout << "Defense:\n(1) High\n(2) Medium\n(3) Low\n(4) Zero\n";
      cin >> def;
-     cout << "Special:\n(1) High\n(2) Medium\n(3) Low\n";
+     cout << "Special:\n(1) High\n(2) Medium\n(3) Low\n(4) Zero\n";
      cin >> sp;
-     cout << "Special Defense:\n(1) High\n(2) Medium\n(3) Low\n";
+     cout << "Special Defense:\n(1) High\n(2) Medium\n(3) Low\n(4) Zero\n";
      cin >> spdef;
      cout << "Speed:\n(1) High\n(2) Medium\n(3) Low\n";
      cin >> spd;
@@ -77,6 +79,7 @@ else if (in.eof())
      in.close();
      out.close();
      health();
+     SP();
      mainmenu();
      }
 system("PAUSE");
@@ -110,7 +113,7 @@ for (int i = 1; i = 1; i += 0)
          }
       if (choice == '4')
          {
-         SP();
+         totSP();
          continue;
          }
       if (choice == '5')
@@ -167,7 +170,7 @@ if (choice == '1')
    cout << "Gain how much EXP?\n";
    cin >> gain;
    cout << "/me gained " << gain << " EXP.\n";
-   exp -= gain;
+   exp = exp - gain;
    if (exp <= 0)
       {
       cout << "/me leveled up to Level ";
@@ -186,32 +189,25 @@ if (choice == '1')
          lvl += 1;
          fHP = lvl * 8;
          }
-      cout << lvl << endl;;
-      if (lvl <= 10)
-         {
-         exp += lvl;
-         }
-      if (lvl > 10)
-         {
-         exp += 10;
-         }
-      }
-   if (lvl <= 10)
-      {
+      cout << lvl << endl;
+      exp += lvl;
       remain = lvl;
-      }
-   if (lvl > 10)
-      {
-      remain = 10;
-      }
-   if (lvl <= 10)
-      {
       cout << "Level " << lvl << endl << lvl - exp << " / " << remain << " exp"<< endl;
+      out.open ("character.txt", ios::out);
+      out << character << endl;
+      out << atk << endl << def << endl;
+      out << sp << endl << spdef << endl << spd << endl << lvl << endl;
+      out << fHP << endl;
+      out << exp << endl;
+      out.close();
+      if (lvl != prevlvl)
+         {
+         health();
+         SP();
+         }
       }
-   if (lvl > 10)
-      {
-      cout << "Level " << lvl << endl << 10 - exp << " / " << remain << " exp"<< endl;
-      }
+   remain = lvl;
+   cout << "Level " << lvl << endl << lvl - exp << " / " << remain << " exp"<< endl;
    out.open ("character.txt", ios::out);
    out << character << endl;
    out << atk << endl << def << endl;
@@ -219,26 +215,13 @@ if (choice == '1')
    out << fHP << endl;
    out << exp << endl;
    out.close();
-   if (lvl != prevlvl)
-      {
-      health();
-      }
    }
 if (choice == '2')
    {
-   if (lvl <= 10)
-      {
-      cout << "Level " << lvl << endl << lvl - exp << " / " << lvl << " exp"<< endl;
-      }
-   if (lvl > 10)
-      {
-      cout << "Level " << lvl << endl << 10 - exp << " / 10 exp"<< endl;
-      }
+   cout << "Level " << lvl << endl << lvl - exp << " / " << lvl << " exp"<< endl;
    }
-
 system("PAUSE");
 }
-
 
 void stats()
 {
@@ -253,22 +236,9 @@ in.close();
 cout << "--CURRENT STATS--\n";
 cout << character << "\nLevel: " << lvl << endl;
 cout << "HP: " << totalhealth << "/" << fullhealth << endl;
-if (lvl <= 10)
-   {
+cout << "SP: " << totalSP << "/" << fullSP << endl;
    remain = lvl;
-   }
-if (lvl > 10)
-   {
-   remain = 10;
-   }
-if (lvl <= 10)
-   {
    cout << lvl - exp << " / " << remain << " exp";
-   }
-if (lvl > 10)
-   {
-   cout << 10 - exp << " / " << remain << " exp";
-   }
 if (atk == 1)
    {
    cout << "\nAttack: High";
@@ -280,6 +250,10 @@ if (atk == 2)
 if (atk == 3)
    {
    cout << "\nAttack: Low";
+   }
+if (atk == 4)
+   {
+   cout << "\nAttack: Zero";
    }
 if (def == 1)
    {
@@ -293,6 +267,10 @@ if (def == 3)
    {
    cout << "\nDefense: Low";
    }
+if (def == 4)
+   {
+   cout << "\nDefense: Zero";
+   }
 if (sp == 1)
    {
    cout << "\nSpecial: High";
@@ -305,6 +283,10 @@ if (sp == 3)
    {
    cout << "\nSpecial: Low";
    }
+if (sp == 4)
+   {
+   cout << "\nSpecial: Zero";
+   }
 if (spdef == 1)
    {
    cout << "\nSp Defense: High";
@@ -316,6 +298,10 @@ if (spdef == 2)
 if (spdef == 3)
    {
    cout << "\nSp Defense: Low";
+   }
+if (spdef == 4)
+   {
+   cout << "\nSp Defense: Zero";
    }
 if (spd == 1)
    {
@@ -344,7 +330,7 @@ double atk, coredamage, attack, defense, damage, netdamage;
 srand(time(NULL));
 cout << "--DAMAGE CALCULATION--\n";
 cout << "Special Attack or Regular Attack?\n";
-cout << "(1) Regular\n(2) Special\n";
+cout << "(1) Regular\n(2) Special\n(3) Exit this submenu\n";
 cin >> atk;
 if (atk == 1)
    {
@@ -442,7 +428,7 @@ void tothealth()
 {
 int dmg, damage;
 cout << "--HP CALCULATION--\n";
-cout << "(1) Take Damage\n(2) Heal Damage\n(3) Check current HP\n";
+cout << "(1) Take Damage\n(2) Heal Damage\n(3) Check current HP\n(4) Exit this submenu\n";
 cin >> dmg;
 if (dmg == 1)
    {
@@ -469,8 +455,8 @@ system("PAUSE");
 void help()
 {
 char choice;
-cout << "INFO: \n(C)2009\nBy: RehdBlob\nCharacter Tracking Program V 1.5\n";
-cout << "Made for Mario Paintasy XVI, created by JillSandwich93 and AbsoluteZero255\n";
+cout << "INFO: \n(C)2009\nBy: RehdBlob\nCharacter Tracking Program V 1.9\n";
+cout << "Made for Mario Paintasy, created by JillSandwich93 and AbsoluteZero255\n";
 cout << "aka. 'JS' and 'AZ'\n";
 cout << "--HELP MENU--\n";
 cout << "(1) Character\n(2) EXP\n(3) Exit\n";
@@ -489,24 +475,80 @@ if (choice == '2')
    cout << "EXP Table: Amount of EXP Required to level up.\n";
    for (int k = 1; k <= 15; k++)
        {
-       if (k < 10)
+          if (k < 10)
+          {
           cout << "Level: " << k << "   EXP Required to level up: " << k << endl;
-
-       else
-          cout << "Level: " << k << "  EXP Required to level up: 10" << endl;
+          }
+          if (k > 10)
+          {
+          cout << "Level: " << k << "  EXP Required to level up: " << k << endl;
+          }
        }
-   cout << "All succeeding levels require 10 exp to level up" << endl;
-   cout << "A regular battle is worth 1 exp (ALL LEVELS)\n";
+   cout << "... etc.\n";
+   cout << "A regular battle is worth 1 exp\n";
    cout << "Overkill gives 1 extra exp.\n";
-   cout << "A boss battle is worth 2 exp for levels 1-10\n";
-   cout << "A boss battle is worth (Level)/4 exp for levels 11-20, rounded down\n";
-   cout << "A boss battle is worth 2 exp for levels 21 onwards\n";
+   cout << "A boss battle is worth 2 exp\n";
+   cout << "Overkill rules also apply to boss battles.\n";
    }
 system("PAUSE");
 }
 
-void SP();
+void SP()
 {
-system("PAUSE");
+int fSP, level;
+ifstream in;
+in.open("character.txt", ios::in);
+in.ignore(21, '\n');
+for (int j = 1; j <= 2; j++)
+    in.ignore(2, '\n');
+in >> fSP;
+for (int j = 1; j <= 3; j++)
+    in.ignore(2, '\n');
+in >> level;
+in.close();
+if (fSP == 1)
+   {
+   totalSP = 3 * level;
+   }
+if (fSP == 2)
+   {
+   totalSP = 2 * level;
+   }
+if (fSP == 3)
+   {
+   totalSP = 1 * level;
+   }
+if (fSP == 4)
+   {
+   totalSP = 0;
+   }
+fullSP = totalSP;
 }
 
+void totSP()
+{
+int choice, amt;
+cout << "--SP CALCULATION--\n";
+cout << "(1) Use SP\n(2) Regain SP\n(3) Check current SP\n(4) Exit this submenu\n";
+cin >> choice;
+if (choice == 1)
+   {
+   cout << "SP Used: ";
+   cin >> amt;
+   totalSP -= amt;
+   cout << "/me used " << amt << " SP." << endl;
+   }
+if (choice == 2)
+   {
+   cout << "SP Regained: ";
+   cin >> amt;
+   totalSP += amt;
+   cout << "/me regained " << amt << " SP.\n";
+   }
+if (choice == 3)
+   {
+   cout << "Current SP: ";
+   cout << totalSP << "/" << fullSP << endl;
+   }
+system("PAUSE");
+}
