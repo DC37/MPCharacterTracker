@@ -1,5 +1,5 @@
 /****************************************************************************\
-                     Character Tracking Program v1.0
+                     Character Tracking Program v1.5
                      (c) 2009 By: RehdBlob
 \****************************************************************************/
 #include <fstream.h>
@@ -15,6 +15,7 @@ void EXP();
 void mainmenu();
 void tothealth();
 void help();
+void SP();
 
 int main()
 {
@@ -89,8 +90,8 @@ for (int i = 1; i = 1; i += 0)
       {
       system ("CLS");
       cout << "--MAIN MENU--\n";
-      cout << "(1) Current Stats\n(2) EXP\n(3) HP Calculation\n";
-      cout << "(4) Damage Calculation\n(5) Info/Help\n(6) Exit\n";
+      cout << "(1) Current Stats\n(2) EXP\n(3) HP Calculation\n(4) SP Calculation\n";
+      cout << "(5) Damage Calculation\n(6) Info/Help\n(7) Exit\n";
       cin >> choice;
       if (choice == '1')
          {
@@ -109,15 +110,20 @@ for (int i = 1; i = 1; i += 0)
          }
       if (choice == '4')
          {
-         damage();
+         SP();
          continue;
          }
       if (choice == '5')
          {
-         help();
+         damage();
          continue;
          }
       if (choice == '6')
+         {
+         help();
+         continue;
+         }
+      if (choice == '7')
          {
          break;
          }
@@ -463,7 +469,7 @@ system("PAUSE");
 void help()
 {
 char choice;
-cout << "INFO: \n(C)2009\nBy: RehdBlob\nCharacter Tracking Program V 1.0\n";
+cout << "INFO: \n(C)2009\nBy: RehdBlob\nCharacter Tracking Program V 1.5\n";
 cout << "Made for Mario Paintasy XVI, created by JillSandwich93 and AbsoluteZero255\n";
 cout << "aka. 'JS' and 'AZ'\n";
 cout << "--HELP MENU--\n";
@@ -498,3 +504,9 @@ if (choice == '2')
    }
 system("PAUSE");
 }
+
+void SP();
+{
+system("PAUSE");
+}
+
